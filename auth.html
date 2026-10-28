@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>KinTime - Log in to your account | Stitch Project 7871838693372050863</title>
+    
+    <!-- Google Fonts: Plus Jakarta Sans, Lora, & Fraunces (From Stitch Project 7871838693372050863) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Lora:ital,wght@0,500;0,600;1,400&family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Tailwind CSS with custom theme matching Stitch 7871838693372050863 -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+              serif: ['Lora', 'Fraunces', 'serif'],
+            },
+            colors: {
+              brand: {
+                green: '#4E9320',
+                'green-hover': '#43801B',
+                terracotta: '#C85A32',
+                'terracotta-hover': '#96391A',
+                beige: '#FBF7F0',
+                card: '#FCF7EE',
+                surface: '#A89989',
+                espresso: '#2C221E',
+                muted: '#7E7065',
+                border: '#E8E1D5',
+              },
+            },
+            boxShadow: {
+              'warm-card': '0 25px 50px -12px rgba(60, 40, 25, 0.12), 0 0 0 1px rgba(230, 220, 205, 0.6)',
+              'tactile': '0 10px 28px -4px rgba(60, 40, 20, 0.08)',
+            },
+            borderRadius: {
+              '4xl': '2rem',
+            },
+          },
+        },
+      };
+    </script>
+
+    <!-- Custom Atmosphere & Still-Life Palette Styles from Stitch Project -->
+    <style data-purpose="stitch-background">
+      body {
+        background-color: #A39384;
+        background-image: 
+          radial-gradient(at 15% 15%, rgba(225, 214, 198, 0.45) 0px, transparent 65%),
+          radial-gradient(at 85% 80%, rgba(135, 119, 104, 0.4) 0px, transparent 60%);
+        min-height: 100vh;
+      }
+      .headline-pillowy {
+        font-weight: 800;
+        letter-spacing: -0.025em;
+        text-shadow: 0 1px 3px rgba(35, 25, 20, 0.18);
+      }
+      .input-field-shadow {
+        box-shadow: inset 0 1px 2px rgba(50, 40, 30, 0.04);
+      }
+      @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(-4px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+      .animate-fadeIn {
+        animation: fadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      }
+    </style>
+  </head>
+  <body class="font-sans antialiased text-brand-espresso flex items-center justify-center p-3 sm:p-6 md:p-8 lg:p-12 min-h-screen selection:bg-brand-green selection:text-white">
+    <div id="root" class="w-full flex items-center justify-center"></div>
+    <script type="module" src="/src/auth-main.jsx"></script>
+  </body>
+</html>

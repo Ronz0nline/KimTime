@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Care Exchange — KinTime Caregiver Time-Bank</title>
+  <meta name="description" content="Browse verified neighborly care requests, volunteer to help, or post your family respite needs with sovereign double-entry escrow." />
+  
+  <!-- Clean, Modern & Airy Geometric Sans-Serif Typography (Poppins, Montserrat, Inter) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@500;600;700;800;900&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&display=swap" rel="stylesheet" />
+  
+  <script type="module" src="/src/auth-guard.js"></script>
+  <link rel="stylesheet" href="/src/style.css" />
+</head>
+<body class="canvas-ground">
+  <div id="smooth-wrapper">
+    <div id="smooth-content">
+
+      <!-- Navigation Bar -->
+      <header class="header-nav liquid-glass-card" id="navbar">
+        <div class="nav-container">
+          <a href="index.html" class="brand-group" aria-label="KinTime Home">
+            <div class="brand-symbol">
+              <span class="symbol-core"></span>
+              <span class="symbol-ring"></span>
+            </div>
+            <span class="brand-name">KinTime</span>
+          </a>
+
+          <nav class="nav-links" aria-label="Main Navigation">
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="care-exchange.html" class="nav-link active">Care Exchange</a>
+            <a href="passbook.html" class="nav-link">Care Passbook</a>
+            <a href="dossier.html" class="nav-link">Care Dossier</a>
+          </nav>
+
+          <div class="nav-actions">
+            <a href="passbook.html" class="passbook-quick-pill" title="Your verified care hours">
+              <span class="pill-dot"></span>
+              <span class="pill-label">Balance:</span>
+              <span class="pill-value tabular-nums" id="nav-balance-val">4.50</span>
+              <span class="pill-unit">hrs</span>
+            </a>
+
+            <!-- User Account / Profile Button -->
+            <button class="nav-auth-btn" id="btn-open-auth" aria-label="Account Login or Registration">
+              <span class="user-avatar-dot" id="nav-user-avatar">AD</span>
+              <span class="nav-user-name" id="nav-user-name">Ananya</span>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+
+            <a href="emergency-sos.html" class="btn-sos-trigger" aria-label="Activate Respite SOS Emergency">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
+              </svg>
+              <span>Respite SOS</span>
+            </a>
+          </div>
+        </div>
+        <div class="scroll-progress-line" id="scroll-progress"></div>
+      </header>
+
+      <main>
+        <!-- Care Exchange Page Header -->
+        <section class="section page-hero-header">
+          <div class="container">
+            <div class="board-header-row">
+              <div>
+                <span class="section-kicker">Community Care Exchange</span>
+                <h1 class="section-title">Neighborhood Care Board</h1>
+                <p class="section-subtitle">
+                  Browse requests from verified neighboring caregivers. Exchange non-contact vital errands or companionship respite—with zero cash gate.
+                </p>
+              </div>
+
+              <!-- Elastic Animated Segmented Control -->
+              <div class="segmented-control-wrapper">
+                <div class="segmented-control" id="task-filter-segmented">
+                  <div class="segmented-pill-indicator" id="segmented-pill"></div>
+                  <button class="seg-btn active" data-filter="all" id="seg-all">All Requests</button>
+                  <button class="seg-btn" data-filter="tier-1" id="seg-tier1">Tier 1: Errands</button>
+                  <button class="seg-btn" data-filter="tier-2" id="seg-tier2">Tier 2: Respite</button>
+                  <button class="seg-btn" data-filter="my-posts" id="seg-my-posts">My Posts</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Live Telemetry Bar -->
+            <div class="telemetry-banner">
+              <div class="telemetry-banner-item">
+                <span class="circle-dot-pulse"></span>
+                <span><strong>42 Active Volunteers</strong> on standby in Bengaluru</span>
+              </div>
+              <div class="telemetry-banner-item">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                <span><strong>18 Care Tasks</strong> completed this week</span>
+              </div>
+              <div class="telemetry-banner-item">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                <span><strong>14 mins</strong> average response match</span>
+              </div>
+              <div class="telemetry-banner-item">
+                <span class="spec-pill-tag tag-verified" style="margin:0;">100% DigiLocker Verified</span>
+              </div>
+            </div>
+
+            <!-- Spotlight Proximity Task Grid -->
+            <div class="tasks-grid" id="tasks-container">
+              <!-- Dynamically populated via JavaScript with Indian credentials -->
+            </div>
+
+            <!-- Quick Request Creator Liquid Bar -->
+            <div class="create-request-bar liquid-glass-card">
+              <div class="create-bar-text">
+                <span class="create-badge">Need Respite or Help Today?</span>
+                <span class="create-sub">Post assistance request to verified neighborhood caregivers. Escrow locks automatically.</span>
+              </div>
+              <div class="create-actions">
+                <button class="btn btn-outline" id="btn-open-request-modal">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                  <span>Post Neighborly Request</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Caregiver Dignity & Volunteer Code of Conduct -->
+            <div class="conduct-section">
+              <div class="section-header-centered">
+                <span class="section-kicker">Ethical Standards</span>
+                <h2 class="section-title">Caregiver Dignity &amp; Volunteer Code of Conduct</h2>
+                <p class="section-subtitle">
+                  Our community thrives on trust, empathy, and absolute clarity of non-clinical boundaries.
+                </p>
+              </div>
+
+              <div class="conduct-grid">
+                <!-- Conduct 1 -->
+                <div class="conduct-card liquid-glass-card spotlight-card" data-spotlight>
+                  <div class="conduct-icon-circle">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>
+                  </div>
+                  <h3 class="conduct-title">Zero Clinical Intervention</h3>
+                  <p class="conduct-desc">
+                    Helpers never administer intravenous lines, injections, wound dressings, or alter prescription dosages. We provide gentle companion supervision and non-clinical warmth only.
+                  </p>
+                </div>
+
+                <!-- Conduct 2 -->
+                <div class="conduct-card liquid-glass-card spotlight-card" data-spotlight>
+                  <div class="conduct-icon-circle">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                  </div>
+                  <h3 class="conduct-title">Dietary &amp; Cultural Sanctity</h3>
+                  <p class="conduct-desc">
+                    Strict adherence to vegetarian, Jain, or halal dietary practices in the recipient's home. Zero outside food without explicit consent from the primary family caregiver.
+                  </p>
+                </div>
+
+                <!-- Conduct 3 -->
+                <div class="conduct-card liquid-glass-card spotlight-card" data-spotlight>
+                  <div class="conduct-icon-circle">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                  </div>
+                  <h3 class="conduct-title">Sovereign Privacy</h3>
+                  <p class="conduct-desc">
+                    Never take photographs, record videos, or discuss the elder's cognitive condition with outsiders. Patient dignity and household confidentiality are legally protected.
+                  </p>
+                </div>
+
+                <!-- Conduct 4 -->
+                <div class="conduct-card liquid-glass-card spotlight-card" data-spotlight>
+                  <div class="conduct-icon-circle">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                  </div>
+                  <h3 class="conduct-title">Punctuality Commitment</h3>
+                  <p class="conduct-desc">
+                    Elderly family members experience acute anxiety with unexpected delays. Volunteer helpers arrive 5 minutes early or notify the family via the verified circle phone immediately.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </section>
+      </main>
+
+      <!-- Footer -->
+      <footer class="site-footer">
+        <div class="container footer-content">
+          <div class="footer-top">
+            <div class="f-col">
+              <div class="brand-group">
+                <div class="brand-symbol"><span class="symbol-core"></span></div>
+                <span class="brand-name">KinTime</span>
+              </div>
+              <p class="footer-blurb">
+                An open protocol time-bank for unpaid family caregivers. Powered by neighborly empathy and double-entry cryptographic verification.
+              </p>
+            </div>
+
+            <div class="f-col">
+              <span class="f-heading">Platform Navigation</span>
+              <ul class="f-list">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="care-exchange.html">Care Exchange</a></li>
+                <li><a href="passbook.html">Care Passbook</a></li>
+                <li><a href="dossier.html">Care Dossier</a></li>
+                <li><a href="emergency-sos.html">Emergency SOS</a></li>
+                <li><a href="#" id="btn-open-db">Database &amp; Schema</a></li>
+              </ul>
+            </div>
+
+            <div class="f-col">
+              <span class="f-heading">Statutory Compliance</span>
+              <p class="f-statute">
+                Complies with Senior Citizens Welfare Protocols (Maintenance and Welfare of Parents and Senior Citizens Act 2007) and Good Samaritan Protection under the Motor Vehicles (Amendment) Act 2019 / Supreme Court Guidelines. Non-profit mutual aid protocol with zero direct clinical liability.
+              </p>
+            </div>
+          </div>
+
+          <div class="footer-bottom">
+            <span>&copy; 2026 KinTime India Care Infrastructure. Open Social Protocol.</span>
+            <div class="footer-bottom-links">
+              <a href="#navbar" class="back-to-top" id="btn-back-to-top">Back to Top &uarr;</a>
+            </div>
+          </div>
+        </div>
+      </footer>
+
+    </div>
+  </div>
+
+  <!-- Modal: Good Samaritan Mutual Waiver -->
+  <div class="modal-overlay" id="waiver-modal" aria-hidden="true" role="dialog" aria-labelledby="waiver-title">
+    <div class="modal-glass-card liquid-glass-card">
+      <div class="modal-header">
+        <div class="modal-badge-group">
+          <span class="status-shield"></span>
+          <span class="modal-kicker">Good Samaritan Mutual Waiver</span>
+        </div>
+        <button class="modal-close-btn" id="btn-close-waiver" aria-label="Close Modal">&times;</button>
+      </div>
+
+      <h3 class="modal-title" id="waiver-title">Non-Clinical Care Stewardship Agreement</h3>
+      
+      <div class="modal-task-summary" id="modal-task-summary">
+        <!-- Populated via JS -->
+      </div>
+
+      <div class="modal-legal-scrollbox">
+        <p><strong>1. Non-Clinical Scope of Assistance:</strong> The undersigned volunteer caregiver acknowledges that assistance provided through KinTime consists strictly of non-medical respite, companionship, and neighborhood errands. Under no circumstances shall the helper perform invasive medical procedures, dispense controlled medications without prescription authorization, or assume licensed nurse liability.</p>
+        <p><strong>2. Good Samaritan Protection (Indian Legal Precedents):</strong> Both parties voluntarily enter this exchange under Good Samaritan legal protections recognized by the Supreme Court of India and Section 134A of the Motor Vehicles Act. No monetary consideration or cash is exchanged; all compensation occurs strictly via immutable hour credits in the KinTime double-entry ledger.</p>
+        <p><strong>3. Escrow Lock Authorization:</strong> Upon executing this claim, the escrow lock will register on the immutable ledger. When the respite session is completed, both parties verify completion to release the credit.</p>
+      </div>
+
+      <div class="waiver-sign-row">
+        <label class="checkbox-container">
+          <input type="checkbox" id="waiver-agree-checkbox" />
+          <span class="checkmark"></span>
+          <span class="checkbox-label">I certify that I am a verified community helper and agree to the non-clinical Good Samaritan terms under Indian Law.</span>
+        </label>
+      </div>
+
+      <div class="modal-actions">
+        <button class="btn btn-secondary" id="btn-cancel-waiver">Cancel</button>
+        <button class="btn btn-primary" id="btn-confirm-claim" disabled>
+          <span>Sign Waiver &amp; Claim Task</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Post a Neighborly Request -->
+  <div class="modal-overlay" id="request-modal" aria-hidden="true" role="dialog" aria-labelledby="request-modal-title">
+    <div class="modal-glass-card liquid-glass-card">
+      <div class="modal-header">
+        <span class="modal-kicker">Create Care Request</span>
+        <button class="modal-close-btn" id="btn-close-request" aria-label="Close Modal">&times;</button>
+      </div>
+
+      <h3 class="modal-title" id="request-modal-title">Post a Neighborly Care Request</h3>
+
+      <form id="new-request-form" class="request-form">
+        <div class="form-group">
+          <label for="req-tier">Select Service Tier</label>
+          <select id="req-tier" class="form-input" required>
+            <option value="tier-2">Tier 2: Respite &amp; Companionship (Sitting, Walking, Meal Warming)</option>
+            <option value="tier-1">Tier 1: Vital Errands &amp; Transport (Pharmacy, Grocery, Dialysis Auto)</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="req-title">Task Title</label>
+          <input type="text" id="req-title" class="form-input" placeholder="e.g. Afternoon Courtyard Respite & Bhajan Listening for Dadi" required />
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="req-hours">Estimated Hours</label>
+            <input type="number" id="req-hours" class="form-input tabular-nums" min="0.5" max="8" step="0.5" value="2.0" required />
+          </div>
+          <div class="form-group">
+            <label for="req-location">Neighborhood Cluster</label>
+            <input type="text" id="req-location" class="form-input" value="Indiranagar Care Circle, Bengaluru" required />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="req-desc">Context &amp; Non-Clinical Notes</label>
+          <textarea id="req-desc" class="form-input" rows="3" placeholder="Provide helpful details (e.g., loves listening to Carnatic ragas/Premchand stories, quiet verandah seating, hot ginger-tulsi chai served)." required></textarea>
+        </div>
+
+        <div class="escrow-preview-pill">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C85A32" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+          <span>Upon posting, <strong id="req-escrow-hrs">2.00 hrs</strong> will be held in escrow reserve from your passbook.</span>
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" class="btn btn-secondary" id="btn-cancel-request">Cancel</button>
+          <button type="submit" class="btn btn-primary">
+            <span>Post Request &amp; Lock Escrow</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Live SQLite Database Inspector -->
+  <div class="modal-overlay" id="db-modal" aria-hidden="true" role="dialog" aria-labelledby="db-modal-title">
+    <div class="modal-glass-card modal-db-card liquid-glass-card">
+      <div class="modal-header">
+        <div class="modal-badge-group">
+          <span class="pill-dot"></span>
+          <span class="modal-kicker">Local SQLite 3 Engine &bull; database/kintime.db</span>
+        </div>
+        <button class="modal-close-btn" id="btn-close-db" aria-label="Close Database Inspector">&times;</button>
+      </div>
+
+      <div class="db-inspector-header">
+        <div>
+          <h3 class="modal-title" id="db-modal-title">SQLite Database Inspector</h3>
+          <p class="db-sub-text">Direct query access to the append-only double-entry care ledger and relational schema.</p>
+        </div>
+        <div class="db-status-pill">
+          <span class="db-pulse"></span>
+          <span>Port 3001 Connected</span>
+        </div>
+      </div>
+
+      <div class="db-tabs-bar">
+        <button class="db-tab active" data-db-tab="ledger">ledger_entries</button>
+        <button class="db-tab" data-db-tab="balances">vw_user_balances (View)</button>
+        <button class="db-tab" data-db-tab="tasks">tasks</button>
+        <button class="db-tab" data-db-tab="users">users</button>
+        <button class="db-tab" data-db-tab="schema">schema.sql (DDL)</button>
+      </div>
+
+      <div class="db-table-viewport" id="db-table-viewport"></div>
+
+      <div class="db-modal-footer">
+        <div class="db-footer-info font-mono">
+          <span>File: <code>database/kintime.db</code></span>
+          <span>&bull; View in CLI: <code>npm run db:view</code></span>
+        </div>
+        <button class="btn btn-secondary btn-sm" id="btn-refresh-db">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"></polyline><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path></svg>
+          <span>Refresh Data</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>

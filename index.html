@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KinTime — Neighborly Caregiver Time-Bank</title>
+  <meta name="description" content="KinTime is a mutual time-bank for unpaid family caregivers. Earn hours by running errands for neighbors, and withdraw those hours when you need someone to sit with your loved one." />
+  
+  <!-- Clean, Modern & Airy Geometric Sans-Serif Typography (Poppins, Montserrat, Inter) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@500;600;700;800;900&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&display=swap" rel="stylesheet" />
+  
+  <script type="module" src="/src/auth-guard.js"></script>
+  <link rel="stylesheet" href="/src/style.css" />
+</head>
+<body class="canvas-ground">
+  <div id="smooth-wrapper">
+    <div id="smooth-content">
+
+      <!-- Navigation Bar -->
+      <header class="header-nav liquid-glass-card" id="navbar">
+        <div class="nav-container">
+          <a href="index.html" class="brand-group" aria-label="KinTime Home">
+            <div class="brand-symbol">
+              <span class="symbol-core"></span>
+              <span class="symbol-ring"></span>
+            </div>
+            <span class="brand-name">KinTime</span>
+          </a>
+
+          <nav class="nav-links" aria-label="Main Navigation">
+            <a href="index.html" class="nav-link active">Home</a>
+            <a href="care-exchange.html" class="nav-link">Care Exchange</a>
+            <a href="passbook.html" class="nav-link">Care Passbook</a>
+            <a href="dossier.html" class="nav-link">Care Dossier</a>
+          </nav>
+
+          <div class="nav-actions">
+            <!-- Caregiver Passbook Quick Balance Pill -->
+            <a href="passbook.html" class="passbook-quick-pill" title="Your verified care hours">
+              <span class="pill-dot"></span>
+              <span class="pill-label">Balance:</span>
+              <span class="pill-value tabular-nums" id="nav-balance-val">4.50</span>
+              <span class="pill-unit">hrs</span>
+            </a>
+
+            <!-- User Account / Profile Button -->
+            <button class="nav-auth-btn" id="btn-open-auth" aria-label="Account Login or Registration">
+              <span class="user-avatar-dot" id="nav-user-avatar">AD</span>
+              <span class="nav-user-name" id="nav-user-name">Ananya</span>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+
+            <!-- Emergency Respite Trigger Button -->
+            <a href="emergency-sos.html" class="btn-sos-trigger" aria-label="Activate Respite SOS Emergency">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
+              </svg>
+              <span>Respite SOS</span>
+            </a>
+          </div>
+        </div>
+        <div class="scroll-progress-line" id="scroll-progress"></div>
+      </header>
+
+      <main>
+        <!-- Hero Section -->
+        <section class="section hero-section" id="hero">
+          <div class="container hero-grid">
+            <div class="hero-content">
+              <div class="spec-pill-tag">
+                <span class="tag-status-dot"></span>
+                <span>Neighborly Caregiver Time-Bank</span>
+              </div>
+              
+              <h1 class="hero-title">
+                EXCHANGE CARE, NOT CASH. PROTECT YOUR FAMILY FROM <span class="text-terracotta">BURNOUT.</span>
+              </h1>
+              
+              <p class="hero-lead">
+                KinTime is a mutual time-bank for unpaid family caregivers. Earn hours by running errands for neighbors, and withdraw those hours when you desperately need someone to sit with your loved one.
+              </p>
+
+              <div class="hero-cta-group">
+                <a href="care-exchange.html" class="btn btn-primary">
+                  <span>Join the Local Care Pool &rarr;</span>
+                </a>
+                <a href="#how-it-works" class="btn btn-secondary">
+                  <span>How It Works</span>
+                </a>
+              </div>
+
+              <!-- Community Trust Telemetry Bar -->
+              <div class="telemetry-bar liquid-glass-card">
+                <div class="telemetry-item">
+                  <span class="telemetry-num tabular-nums" id="stat-hours" data-target="14820">0</span>
+                  <span class="telemetry-sub">Care Hours Shared</span>
+                </div>
+                <div class="telemetry-divider"></div>
+                <div class="telemetry-item">
+                  <span class="telemetry-num tabular-nums"><span id="stat-rate" data-target="99.4">0</span>%</span>
+                  <span class="telemetry-sub">Care Completion Rate</span>
+                </div>
+                <div class="telemetry-divider"></div>
+                <div class="telemetry-item">
+                  <span class="telemetry-num tabular-nums">+<span id="stat-buffer" data-target="3.0">0</span>h</span>
+                  <span class="telemetry-sub">Emergency Buffer</span>
+                </div>
+                <div class="telemetry-divider"></div>
+                <div class="telemetry-item">
+                  <span class="telemetry-num text-emerald tabular-nums">100%</span>
+                  <span class="telemetry-sub">Free for Families</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Hero Visual: Clean Liquid Glass Showcase -->
+            <div class="hero-visual">
+              <div class="hero-card-stack">
+                <div class="hero-main-card liquid-glass-card spotlight-card" data-spotlight>
+                  <div class="image-wrapper">
+                    <img src="/assets/hero_indian_caregiver.jpg" alt="Compassionate Indian volunteer caregiver and elderly grandmother on a sunlit courtyard verandah with potted Tulsi" class="hero-photo" loading="eager" fetchpriority="high" />
+                    <div class="image-overlay-warm"></div>
+                  </div>
+                  
+                  <div class="card-caption-content">
+                    <div class="caption-header">
+                      <div class="caregiver-avatar-group">
+                        <div class="avatar-ring">
+                          <span class="avatar-initials">AD</span>
+                        </div>
+                        <div>
+                          <h4 class="caregiver-name">Ananya &amp; Dadi Shanti</h4>
+                          <span class="caregiver-meta">Indiranagar Courtyard &bull; Bengaluru</span>
+                        </div>
+                      </div>
+                      <span class="badge-settled">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        Respite Completed
+                      </span>
+                    </div>
+
+                    <p class="caption-quote">
+                      "After four weeks of round-the-clock elder care, Priya spent the afternoon on our courtyard verandah reading Premchand with Dadi. It wasn't charity—Priya later used those banked hours for her mother's dialysis transit to Manipal Hospital."
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- "How It Works" Structure (2x2 Grid from Specification) -->
+        <section class="section" id="how-it-works">
+          <div class="container">
+            <div class="section-header-centered">
+              <span class="section-kicker">The Economic Loop</span>
+              <h2 class="section-title">How KinTime Works</h2>
+              <p class="section-subtitle">
+                Time-banking replaces cash barriers with an accountable circle of mutual reliance. Visually breaking down the loop of depositing and withdrawing time.
+              </p>
+            </div>
+
+            <div class="how-it-works-grid">
+              <!-- Step 1 -->
+              <div class="how-step-card liquid-glass-card spotlight-card" data-spotlight>
+                <span class="step-badge-num">01</span>
+                <h3 class="how-step-title">Secure Your Identity</h3>
+                <p class="how-step-desc">
+                  Safety is our absolute priority. Before joining, every member passes a strict identity and vulnerability sector background check via Aadhaar / DigiLocker and signs a Good Samaritan Mutual Waiver.
+                </p>
+              </div>
+
+              <!-- Step 2 -->
+              <div class="how-step-card liquid-glass-card spotlight-card" data-spotlight>
+                <span class="step-badge-num">02</span>
+                <h3 class="how-step-title">Deposit Your Time</h3>
+                <p class="how-step-desc">
+                  Pick up Jan Aushadhi prescriptions, drop off a warm meal, or read to an elder neighbor. For every hour you spend helping a neighbor, exactly 1.0 hour is deposited into your digital Passbook.
+                </p>
+              </div>
+
+              <!-- Step 3 -->
+              <div class="how-step-card liquid-glass-card spotlight-card" data-spotlight>
+                <span class="step-badge-num">03</span>
+                <h3 class="how-step-title">Withdraw Relief</h3>
+                <p class="how-step-desc">
+                  When you are exhausted, sick, or need to attend your own medical appointment, spend your earned banked hours to request a verified neighbor to cover for your family.
+                </p>
+              </div>
+
+              <!-- Step 4 -->
+              <div class="how-step-card liquid-glass-card spotlight-card" data-spotlight>
+                <span class="step-badge-num">04</span>
+                <h3 class="how-step-title">The Care Grant</h3>
+                <p class="how-step-desc">
+                  Burnout doesn't wait until you have a positive balance. Every new family receives an immediate 5-hour Starter Care Grant upon verification to access emergency relief on day one.
+                </p>
+              </div>
+            </div>
+
+
+            <!-- Active Neighborhood Care Circles Directory -->
+            <div style="margin-top: 64px;">
+              <div class="section-header-centered">
+                <span class="section-kicker">Local Community Grounding</span>
+                <h2 class="section-title">Active Neighborhood Care Circles</h2>
+                <p class="section-subtitle">
+                  KinTime operates as hyper-localized mutual aid clusters across Indian residential colonies and apartment societies.
+                </p>
+              </div>
+
+              <div class="circles-grid">
+                <!-- Circle 1: Indiranagar & Domlur -->
+                <div class="circle-card liquid-glass-card spotlight-card" data-spotlight>
+                  <div class="circle-header">
+                    <span class="circle-city-badge">Bengaluru, KA</span>
+                    <span class="circle-live-pill"><span class="circle-dot-pulse"></span> 42 Families</span>
+                  </div>
+                  <h3 class="circle-name">Indiranagar &amp; Domlur</h3>
+                  <p class="circle-desc">
+                    Active cluster around 100ft Road and Defence Colony. High activity for Jan Aushadhi deliveries, park wheelchair walks, and evening tea companions.
+                  </p>
+                  <div class="circle-metrics-row">
+                    <span class="circle-metric"><strong>186h</strong> Exchanged</span>
+                    <span class="circle-metric">&bull;</span>
+                    <span class="circle-metric"><strong>14m</strong> Avg Match</span>
+                  </div>
+                </div>
+
+                <!-- Circle 2: Malleshwaram & Rajajinagar -->
+                <div class="circle-card liquid-glass-card spotlight-card" data-spotlight>
+                  <div class="circle-header">
+                    <span class="circle-city-badge">Bengaluru, KA</span>
+                    <span class="circle-live-pill"><span class="circle-dot-pulse"></span> 28 Families</span>
+                  </div>
+                  <h3 class="circle-name">Malleshwaram Heritage</h3>
+                  <p class="circle-desc">
+                    Multi-generational residential cluster between 8th and 18th Cross. Focus on Carnatic music listening sessions, temple escort, and Kannada newspaper reading.
+                  </p>
+                  <div class="circle-metrics-row">
+                    <span class="circle-metric"><strong>114h</strong> Exchanged</span>
+                    <span class="circle-metric">&bull;</span>
+                    <span class="circle-metric"><strong>18m</strong> Avg Match</span>
+                  </div>
+                </div>
+
+                <!-- Circle 3: Vasant Kunj & Saket -->
+                <div class="circle-card liquid-glass-card spotlight-card" data-spotlight>
+                  <div class="circle-header">
+                    <span class="circle-city-badge">Delhi NCR</span>
+                    <span class="circle-live-pill"><span class="circle-dot-pulse"></span> 35 Families</span>
+                  </div>
+                  <h3 class="circle-name">Vasant Kunj &amp; Saket</h3>
+                  <p class="circle-desc">
+                    South Delhi colony network supporting retired academics and elderly couples. Frequent dialysis transport escorts to Max Healthcare and AIIMS corridor.
+                  </p>
+                  <div class="circle-metrics-row">
+                    <span class="circle-metric"><strong>148h</strong> Exchanged</span>
+                    <span class="circle-metric">&bull;</span>
+                    <span class="circle-metric"><strong>22m</strong> Avg Match</span>
+                  </div>
+                </div>
+
+                <!-- Circle 4: Adyar & Besant Nagar -->
+                <div class="circle-card liquid-glass-card spotlight-card" data-spotlight>
+                  <div class="circle-header">
+                    <span class="circle-city-badge">Chennai, TN</span>
+                    <span class="circle-live-pill"><span class="circle-dot-pulse"></span> 24 Families</span>
+                  </div>
+                  <h3 class="circle-name">Adyar &amp; Besant Nagar</h3>
+                  <p class="circle-desc">
+                    Coastal residential circle for senior citizens. Regular beach breeze wheelchair walks, Tamil literary discussion, and vegetarian grocery assistance.
+                  </p>
+                  <div class="circle-metrics-row">
+                    <span class="circle-metric"><strong>98h</strong> Exchanged</span>
+                    <span class="circle-metric">&bull;</span>
+                    <span class="circle-metric"><strong>19m</strong> Avg Match</span>
+                  </div>
+                </div>
+
+                <!-- Circle 5: Koregaon Park & Kalyani Nagar -->
+                <div class="circle-card liquid-glass-card spotlight-card" data-spotlight>
+                  <div class="circle-header">
+                    <span class="circle-city-badge">Pune, MH</span>
+                    <span class="circle-live-pill"><span class="circle-dot-pulse"></span> 31 Families</span>
+                  </div>
+                  <h3 class="circle-name">Koregaon &amp; Kalyani Nagar</h3>
+                  <p class="circle-desc">
+                    Tree-lined residential cluster active in Marathi book reading, morning park companions, and organic vegetable market runs for elderly citizens.
+                  </p>
+                  <div class="circle-metrics-row">
+                    <span class="circle-metric"><strong>126h</strong> Exchanged</span>
+                    <span class="circle-metric">&bull;</span>
+                    <span class="circle-metric"><strong>16m</strong> Avg Match</span>
+                  </div>
+                </div>
+
+                <!-- Circle 6: Banjara Hills & Jubilee Hills -->
+                <div class="circle-card liquid-glass-card spotlight-card" data-spotlight>
+                  <div class="circle-header">
+                    <span class="circle-city-badge">Hyderabad, TS</span>
+                    <span class="circle-live-pill"><span class="circle-dot-pulse"></span> 22 Families</span>
+                  </div>
+                  <h3 class="circle-name">Banjara &amp; Jubilee Hills</h3>
+                  <p class="circle-desc">
+                    Active student and retired bank officer volunteer group. Assists with hospital appointment check-ins, Telugu companion visits, and prescription pickups.
+                  </p>
+                  <div class="circle-metrics-row">
+                    <span class="circle-metric"><strong>84h</strong> Exchanged</span>
+                    <span class="circle-metric">&bull;</span>
+                    <span class="circle-metric"><strong>25m</strong> Avg Match</span>
+                  </div>
+                </div>
+
+                <!-- RWA Callout -->
+                <div class="circle-cta-box liquid-glass-card">
+                  <div class="circle-cta-text">
+                    <h4>Want to launch a Care Circle in your Apartment Society or Colony?</h4>
+                    <p>It takes just 3 verified resident households to establish a certified neighborhood care cluster with dedicated ledger escrow.</p>
+                  </div>
+                  <a href="care-exchange.html" class="btn btn-primary btn-sm">
+                    <span>Initialize Society Circle</span>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- Main Feature Hub Navigation -->
+        <section class="section">
+          <div class="container">
+            <div class="section-header-centered">
+              <span class="section-kicker">Dedicated Feature Hub</span>
+              <h2 class="section-title">Explore Platform Capabilities</h2>
+              <p class="section-subtitle">
+                Each pillar of the KinTime architecture has its own dedicated space—designed for sovereign integrity, patient safety, and neighborhood solidarity.
+              </p>
+            </div>
+
+            <div class="feature-hub-grid">
+              <!-- Feature 1: Care Exchange -->
+              <a href="care-exchange.html" class="feature-hub-card liquid-glass-card spotlight-card" data-spotlight>
+                <div class="feature-hub-header">
+                  <span class="tier-pill tier-1-pill">Feature 1</span>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                </div>
+                <h3 class="feature-hub-title">The Care Exchange Board</h3>
+                <p class="feature-hub-desc">
+                  Browse requests from verified neighboring caregivers. Filter between Tier 1 no-contact vital errands or Tier 2 in-home companionship respite.
+                </p>
+                <span class="feature-hub-link">Open Care Exchange &rarr;</span>
+              </a>
+
+              <!-- Feature 2: Passbook Ledger -->
+              <a href="passbook.html" class="feature-hub-card liquid-glass-card spotlight-card" data-spotlight>
+                <div class="feature-hub-header">
+                  <span class="tier-pill tier-2-pill">Feature 2</span>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                </div>
+                <h3 class="feature-hub-title">Care Passbook &amp; Ledger</h3>
+                <p class="feature-hub-desc">
+                  An append-only double-entry time ledger that functions like a bank passbook. Real-time balance tracking, escrow locks, and community overdraft buffer.
+                </p>
+                <span class="feature-hub-link">View Care Passbook &rarr;</span>
+              </a>
+
+              <!-- Feature 3: Care Dossier -->
+              <a href="dossier.html" class="feature-hub-card liquid-glass-card spotlight-card" data-spotlight>
+                <div class="feature-hub-header">
+                  <span class="tier-pill tier-1-pill">Feature 3</span>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                </div>
+                <h3 class="feature-hub-title">The Caregiver Dossier</h3>
+                <p class="feature-hub-desc">
+                  In-depth recipient profile outlining known allergies, triggers (e.g. sundowning), mobility status, emergency physician contacts, and explicit non-clinical boundaries.
+                </p>
+                <span class="feature-hub-link">Inspect Care Dossier &rarr;</span>
+              </a>
+
+              <!-- Feature 4: Emergency SOS -->
+              <a href="emergency-sos.html" class="feature-hub-card liquid-glass-card spotlight-card" data-spotlight>
+                <div class="feature-hub-header">
+                  <span class="tier-pill" style="background:rgba(220,38,38,0.12); color:#dc2626; border:1px solid rgba(220,38,38,0.25);">Feature 4</span>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                </div>
+                <h3 class="feature-hub-title">Respite SOS Trigger</h3>
+                <p class="feature-hub-desc">
+                  High-friction slide-to-activate mechanism with a 5-second reversible countdown abort window. Broadcasts urgent notifications to neighbors within 3 miles.
+                </p>
+                <span class="feature-hub-link">Access Respite SOS &rarr;</span>
+              </a>
+            </div>
+
+            <!-- The Angel Overdraft Reserve Explainer -->
+            <div class="angel-pool-card liquid-glass-card">
+              <span class="section-kicker">Mutual Credit Liquidity</span>
+              <h3 class="section-title" style="font-size: 1.6rem; margin-top: 6px;">
+                How the Community Angel Reserve Solves the Caregiver Paradox
+              </h3>
+              <p style="font-size: 0.95rem; color: var(--color-slate-700); line-height: 1.6; margin-top: 8px;">
+                Traditional time-banks fail because the people most in need of relief are already too exhausted to earn hours upfront. KinTime resolves this with mathematical grace.
+              </p>
+
+              <div class="angel-grid">
+                <div class="angel-step-item">
+                  <span class="angel-step-num">PILLAR 1</span>
+                  <h4 class="angel-step-title">The Caregiver Liquidity Trap</h4>
+                  <p class="angel-step-desc">
+                    When you are caring for an elder with Alzheimer's or post-stroke recovery, you cannot leave the house to earn hours. Forcing advance deposits before relief is cruel and counterproductive.
+                  </p>
+                </div>
+
+                <div class="angel-step-item">
+                  <span class="angel-step-num">PILLAR 2</span>
+                  <h4 class="angel-step-title">Volunteer Angel Injections</h4>
+                  <p class="angel-step-desc">
+                    Healthy retirees, university volunteers, and civic clubs deposit service hours without demanding equal withdrawals. These hours form an unencumbered Community Angel Reserve.
+                  </p>
+                </div>
+
+                <div class="angel-step-item">
+                  <span class="angel-step-num">PILLAR 3</span>
+                  <h4 class="angel-step-title">Zero Refusal Guarantee</h4>
+                  <p class="angel-step-desc">
+                    Every verified family receives an immediate 5.0h Starter Grant and a perpetual +3.0h emergency overdraft buffer. A caregiver in crisis is never denied immediate assistance.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- "Why We Built This" / About Us -->
+        <section class="section" id="about">
+          <div class="container">
+            <div class="section-header-centered">
+              <span class="section-kicker">About Us &bull; The Mission</span>
+              <h2 class="section-title">Caregiving is a silent, exhausting crisis. We believe community is the cure.</h2>
+              <p class="section-subtitle">
+                If you are caring for a spouse with dementia, a child with chronic illness, or an aging parent, you already know the brutal math: professional in-home care is unsustainably expensive, and doing it entirely alone leads to profound burnout.
+              </p>
+            </div>
+
+            <div class="philosophy-grid">
+              <!-- Pillar 1: Shared Empathy -->
+              <div class="philosophy-card liquid-glass-card spotlight-card" data-spotlight>
+                <div class="phil-icon-circle">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+                </div>
+                <h3 class="phil-title">Built by Former Caregivers</h3>
+                <p class="phil-desc">
+                  We realized that while families often lack the money to hire full-time private nurses, neighbors have deep empathy, shared experience, and an occasional hour of free time.
+                </p>
+                <div class="rigor-badge-row">
+                  <span class="rigor-pill">100% Non-Profit</span>
+                  <span class="rigor-pill">Zero Cash Gate</span>
+                </div>
+              </div>
+
+              <!-- Pillar 2: Mutual Reliance -->
+              <div class="philosophy-card liquid-glass-card spotlight-card" data-spotlight>
+                <div class="phil-icon-circle">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                </div>
+                <h3 class="phil-title">Exchange Time, Not Money</h3>
+                <p class="phil-desc">
+                  An hour spent picking up groceries for a neighbor buys you an hour of guilt-free sleep while someone sits with your elder. We replace isolation with mutual reliance.
+                </p>
+                <div class="rigor-badge-row">
+                  <span class="rigor-pill">Strict 1:1 Parity</span>
+                  <span class="rigor-pill">Community Grace Pool</span>
+                </div>
+              </div>
+
+              <!-- Pillar 3: Trust & Protection -->
+              <div class="philosophy-card liquid-glass-card spotlight-card" data-spotlight>
+                <div class="phil-icon-circle">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                </div>
+                <h3 class="phil-title">Safe Neighborhood Circle</h3>
+                <p class="phil-desc">
+                  Every helper passes government ID verification and signs a Good Samaritan agreement. Detailed patient dossiers establish clear boundaries before anyone enters a home.
+                </p>
+                <div class="rigor-badge-row">
+                  <span class="rigor-pill">Aadhaar Verified</span>
+                  <span class="rigor-pill">Good Samaritan Law</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Practical Caregiver Knowledge Guides -->
+            <div style="margin-top: 64px;">
+              <div class="section-header-centered">
+                <span class="section-kicker">Compassion Knowledge Base</span>
+                <h2 class="section-title">Caregiver Practical Field Guides</h2>
+                <p class="section-subtitle">
+                  Evidence-based, respectful guidance prepared by geriatricians and experienced family caregivers for daily home support.
+                </p>
+              </div>
+
+              <div class="guides-grid">
+                <!-- Guide 1 -->
+                <div class="guide-card liquid-glass-card spotlight-card" data-spotlight>
+                  <span class="guide-badge">Dementia Care</span>
+                  <h3 class="guide-title">Understanding Sundowning &amp; Sunset Agitation</h3>
+                  <p class="guide-desc">
+                    Why elderly cognitive confusion spikes between 4 PM and 7 PM, and how soft 2700K lighting, calming instrumental music, and lukewarm tulsi chai provide profound relief.
+                  </p>
+                  <a href="dossier.html" class="guide-link">View Protocol in Dossier &rarr;</a>
+                </div>
+
+                <!-- Guide 2 -->
+                <div class="guide-card liquid-glass-card spotlight-card" data-spotlight>
+                  <span class="guide-badge">Medication Safety</span>
+                  <h3 class="guide-title">Jan Aushadhi Generic Savings &amp; Pill Boxes</h3>
+                  <p class="guide-desc">
+                    How neighborhood errand runners help seniors save up to 70% on hypertension and diabetes prescriptions using government Jan Aushadhi generic equivalents safely.
+                  </p>
+                  <a href="care-exchange.html" class="guide-link">Browse Errands &rarr;</a>
+                </div>
+
+                <!-- Guide 3 -->
+                <div class="guide-card liquid-glass-card spotlight-card" data-spotlight>
+                  <span class="guide-badge">Mental Health</span>
+                  <h3 class="guide-title">Taking a Guilt-Free 2-Hour Respite Break</h3>
+                  <p class="guide-desc">
+                    Overcoming the internal caregiver guilt of leaving your loved one. Why stepping out for a quiet coffee or uninterrupted rest makes you a better, more patient caregiver.
+                  </p>
+                  <a href="passbook.html" class="guide-link">Check Respite Balance &rarr;</a>
+                </div>
+
+                <!-- Guide 4 -->
+                <div class="guide-card liquid-glass-card spotlight-card" data-spotlight>
+                  <span class="guide-badge">Legal Rights</span>
+                  <h3 class="guide-title">Senior Citizens Protection &amp; MWPSC Act</h3>
+                  <p class="guide-desc">
+                    Key protections under the Maintenance and Welfare of Parents and Senior Citizens Act 2007 and how Good Samaritan provisions protect community volunteer helpers.
+                  </p>
+                  <a href="dossier.html" class="guide-link">Inspect Legal Matrix &rarr;</a>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- Community Voices (Social Proof) -->
+        <section class="section">
+          <div class="container">
+            <div class="section-header-centered">
+              <span class="section-kicker">Voices of Caregivers</span>
+              <h2 class="section-title">Community Experiences</h2>
+              <p class="section-subtitle">
+                Real reflections from families navigating caregiving with neighborly mutual reliance across India.
+              </p>
+            </div>
+
+            <div class="testimonials-grid" style="grid-template-columns: repeat(3, 1fr);">
+              <!-- Testimonial 1 -->
+              <div class="testimonial-card liquid-glass-card spotlight-card" data-spotlight>
+                <p class="testimonial-quote">
+                  "I hadn't left my house for a continuous hour in six months while caring for my father-in-law. Through KinTime, a verified neighbor sat on our courtyard verandah reading Premchand with Papaji so I could visit a clinic for my own asthma checkup."
+                </p>
+                <div>
+                  <h4 class="testimonial-author">Meera R. &bull; Malleshwaram, Bengaluru</h4>
+                  <span class="testimonial-meta">Primary Family Caregiver (Dementia Support)</span>
+                </div>
+              </div>
+
+              <!-- Testimonial 2 -->
+              <div class="testimonial-card liquid-glass-card spotlight-card" data-spotlight>
+                <p class="testimonial-quote">
+                  "I don't have the physical strength to lift anyone, but I have a two-wheeler and free time on Tuesday mornings. I earn my time-bank hours by doing Jan Aushadhi pharmacy runs, which I then redeem to get someone to chaperone my mother's dialysis check-in."
+                </p>
+                <div>
+                  <h4 class="testimonial-author">Arjun K. &bull; Indiranagar, Bengaluru</h4>
+                  <span class="testimonial-meta">Caregiver for Aging Mother (Dialysis Care)</span>
+                </div>
+              </div>
+
+              <!-- Testimonial 3 -->
+              <div class="testimonial-card liquid-glass-card spotlight-card" data-spotlight>
+                <p class="testimonial-quote">
+                  "As a retired botany professor living alone in Vasant Kunj, depositing my free afternoons with neighborhood elders gave me purpose again. When I had acute flu last winter, three neighbors immediately stepped up to deliver hot khichdi and groceries."
+                </p>
+                <div>
+                  <h4 class="testimonial-author">Prof. Harish V. &bull; Vasant Kunj, New Delhi</h4>
+                  <span class="testimonial-meta">Active Angel Volunteer &bull; 44h Deposited</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Frequently Asked Questions -->
+        <section class="section">
+          <div class="container">
+            <div class="section-header-centered">
+              <span class="section-kicker">Help Center</span>
+              <h2 class="section-title">Frequently Asked Questions</h2>
+              <p class="section-subtitle">
+                Clear answers regarding trust, safety, liability waivers, and the double-entry care ledger.
+              </p>
+            </div>
+
+            <div class="faq-list">
+              <div class="faq-item liquid-glass-card">
+                <h4 class="faq-question">What happens if I am too burned out to earn hours before I need help?</h4>
+                <p class="faq-answer">
+                  To solve the Caregiver Liquidity Paradox, every new family receives an immediate 5-Hour Starter Care Grant upon identity verification. Furthermore, if your balance reaches zero, the system allows you to access a 3-Hour Community Overdraft funded by volunteer angel hours.
+                </p>
+              </div>
+
+              <div class="faq-item liquid-glass-card">
+                <h4 class="faq-question">How do I know the person coming to my house is safe?</h4>
+                <p class="faq-answer">
+                  KinTime does not allow anonymous accounts. Every user must pass a strict identity verification check (DigiLocker / Aadhaar) and complete a Care Dossier before interacting with Tier 2 in-home requests. Every completed session is mutually reviewed.
+                </p>
+              </div>
+
+              <div class="faq-item liquid-glass-card">
+                <h4 class="faq-question">What if there is a medical emergency while I am providing respite?</h4>
+                <p class="faq-answer">
+                  As a volunteer companion, your role is strictly non-clinical supervision, not medical intervention. If an emergency occurs, your directive under the Good Samaritan Protocol is to immediately call 112 / emergency services and then alert the family physician listed in their Care Dossier.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <!-- Footer -->
+      <footer class="site-footer">
+        <div class="container footer-content">
+          <div class="footer-top">
+            <div class="f-col">
+              <div class="brand-group">
+                <div class="brand-symbol"><span class="symbol-core"></span></div>
+                <span class="brand-name">KinTime</span>
+              </div>
+              <p class="footer-blurb">
+                An open protocol time-bank for unpaid family caregivers. Powered by neighborly empathy and double-entry cryptographic verification.
+              </p>
+            </div>
+
+            <div class="f-col">
+              <span class="f-heading">Platform Navigation</span>
+              <ul class="f-list">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="care-exchange.html">Care Exchange</a></li>
+                <li><a href="passbook.html">Care Passbook</a></li>
+                <li><a href="dossier.html">Care Dossier</a></li>
+                <li><a href="emergency-sos.html">Emergency SOS</a></li>
+                <li><a href="#" id="btn-open-db">Database &amp; Schema</a></li>
+              </ul>
+            </div>
+
+            <div class="f-col">
+              <span class="f-heading">Statutory Compliance</span>
+              <p class="f-statute">
+                Complies with Senior Citizens Welfare Protocols (Maintenance and Welfare of Parents and Senior Citizens Act 2007) and Good Samaritan Protection under the Motor Vehicles (Amendment) Act 2019 / Supreme Court Guidelines. Non-profit mutual aid protocol with zero direct clinical liability.
+              </p>
+            </div>
+          </div>
+
+          <div class="footer-bottom">
+            <span>&copy; 2026 KinTime India Care Infrastructure. Open Social Protocol.</span>
+            <div class="footer-bottom-links">
+              <a href="#hero" class="back-to-top" id="btn-back-to-top">Back to Top &uarr;</a>
+            </div>
+          </div>
+        </div>
+      </footer>
+
+    </div>
+  </div>
+
+  <!-- Modal: Live SQLite Database Inspector -->
+  <div class="modal-overlay" id="db-modal" aria-hidden="true" role="dialog" aria-labelledby="db-modal-title">
+    <div class="modal-glass-card modal-db-card liquid-glass-card">
+      <div class="modal-header">
+        <div class="modal-badge-group">
+          <span class="pill-dot"></span>
+          <span class="modal-kicker">Local SQLite 3 Engine &bull; database/kintime.db</span>
+        </div>
+        <button class="modal-close-btn" id="btn-close-db" aria-label="Close Database Inspector">&times;</button>
+      </div>
+
+      <div class="db-inspector-header">
+        <div>
+          <h3 class="modal-title" id="db-modal-title">SQLite Database Inspector</h3>
+          <p class="db-sub-text">Direct query access to the append-only double-entry care ledger and relational schema.</p>
+        </div>
+        <div class="db-status-pill">
+          <span class="db-pulse"></span>
+          <span>Port 3001 Connected</span>
+        </div>
+      </div>
+
+      <div class="db-tabs-bar">
+        <button class="db-tab active" data-db-tab="ledger">ledger_entries</button>
+        <button class="db-tab" data-db-tab="balances">vw_user_balances (View)</button>
+        <button class="db-tab" data-db-tab="tasks">tasks</button>
+        <button class="db-tab" data-db-tab="users">users</button>
+        <button class="db-tab" data-db-tab="schema">schema.sql (DDL)</button>
+      </div>
+
+      <div class="db-table-viewport" id="db-table-viewport"></div>
+
+      <div class="db-modal-footer">
+        <div class="db-footer-info font-mono">
+          <span>File: <code>database/kintime.db</code></span>
+          <span>&bull; View in CLI: <code>npm run db:view</code></span>
+        </div>
+        <button class="btn btn-secondary btn-sm" id="btn-refresh-db">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"></polyline><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path></svg>
+          <span>Refresh Data</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>

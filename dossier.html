@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Care Dossier — KinTime Caregiver Time-Bank</title>
+  <meta name="description" content="View and manage the Care Dossier for vulnerable family members. Outlines emergency contacts, known triggers, mobility boundaries, and soothing routines." />
+  
+  <!-- Clean, Modern & Airy Geometric Sans-Serif Typography (Poppins, Montserrat, Inter) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@500;600;700;800;900&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&display=swap" rel="stylesheet" />
+  
+  <script type="module" src="/src/auth-guard.js"></script>
+  <link rel="stylesheet" href="/src/style.css" />
+</head>
+<body class="canvas-ground">
+  <div id="smooth-wrapper">
+    <div id="smooth-content">
+
+      <!-- Navigation Bar -->
+      <header class="header-nav liquid-glass-card" id="navbar">
+        <div class="nav-container">
+          <a href="index.html" class="brand-group" aria-label="KinTime Home">
+            <div class="brand-symbol">
+              <span class="symbol-core"></span>
+              <span class="symbol-ring"></span>
+            </div>
+            <span class="brand-name">KinTime</span>
+          </a>
+
+          <nav class="nav-links" aria-label="Main Navigation">
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="care-exchange.html" class="nav-link">Care Exchange</a>
+            <a href="passbook.html" class="nav-link">Care Passbook</a>
+            <a href="dossier.html" class="nav-link active">Care Dossier</a>
+          </nav>
+
+          <div class="nav-actions">
+            <a href="passbook.html" class="passbook-quick-pill" title="Your verified care hours">
+              <span class="pill-dot"></span>
+              <span class="pill-label">Balance:</span>
+              <span class="pill-value tabular-nums" id="nav-balance-val">4.50</span>
+              <span class="pill-unit">hrs</span>
+            </a>
+
+            <!-- User Account / Profile Button -->
+            <button class="nav-auth-btn" id="btn-open-auth" aria-label="Account Login or Registration">
+              <span class="user-avatar-dot" id="nav-user-avatar">AD</span>
+              <span class="nav-user-name" id="nav-user-name">Ananya</span>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+
+            <a href="emergency-sos.html" class="btn-sos-trigger" aria-label="Activate Respite SOS Emergency">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
+              </svg>
+              <span>Respite SOS</span>
+            </a>
+          </div>
+        </div>
+        <div class="scroll-progress-line" id="scroll-progress"></div>
+      </header>
+
+      <main>
+        <!-- Care Dossier Section -->
+        <section class="section page-hero-header">
+          <div class="container">
+            <div class="page-title-row">
+              <div>
+                <span class="section-kicker">Patient Safety &amp; Trust Infrastructure</span>
+                <h1 class="section-title">The Caregiver Dossier</h1>
+                <p class="section-subtitle">
+                  Standard user profiles are insufficient for vulnerable families. KinTime requires a complete Care Dossier before anyone can request or deliver Tier 2 (in-home) respite. This sets explicit legal boundaries and clear expectations.
+                </p>
+              </div>
+
+              <div>
+                <button class="btn btn-outline" id="btn-edit-dossier" onclick="alert('Dossier is verified and locked under Good Samaritan Protocol. Contact circle steward to submit medical revisions.')">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                  <span>Edit Care Boundaries</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Dossier Grid -->
+            <div class="dossier-grid">
+              
+              <!-- Card 1: Primary Caregiver & Sovereign Verification -->
+              <div class="dossier-card liquid-glass-card spotlight-card" data-spotlight>
+                <div class="dossier-card-header">
+                  <div>
+                    <h3 class="dossier-title">Primary Caregiver</h3>
+                    <span class="caregiver-meta font-mono">ACCOUNT #KT-BLR-8842</span>
+                  </div>
+                  <span class="badge-verified-aadhaar">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                    Aadhaar / DigiLocker Verified
+                  </span>
+                </div>
+
+                <div class="dossier-field-group">
+                  <span class="dossier-label">Caregiver Name</span>
+                  <p class="dossier-value"><strong>Ananya Deshmukh</strong> (Daughter-in-Law &amp; Full-Time Caregiver)</p>
+                </div>
+
+                <div class="dossier-field-group">
+                  <span class="dossier-label">Neighborhood Cluster</span>
+                  <p class="dossier-value">Indiranagar Care Circle, Bengaluru, Karnataka (Cluster #KT-BLR-E)</p>
+                </div>
+
+                <div class="dossier-field-group">
+                  <span class="dossier-label">Verified Contact Number</span>
+                  <p class="dossier-value font-mono">+91 98450 21982</p>
+                </div>
+
+                <div class="dossier-field-group">
+                  <span class="dossier-label">Mutual Legal Protection</span>
+                  <p class="dossier-value">Signed Non-Clinical Good Samaritan Mutual Agreement (Motor Vehicles Act 2019 / MWPSC 2007 Compliant).</p>
+                </div>
+              </div>
+
+              <!-- Card 2: Care Recipient Profile & Health Context -->
+              <div class="dossier-card liquid-glass-card spotlight-card" data-spotlight>
+                <div class="dossier-card-header">
+                  <div>
+                    <h3 class="dossier-title">Care Recipient Profile</h3>
+                    <span class="caregiver-meta">In-Home Respite Beneficiary</span>
+                  </div>
+                  <span class="badge-settled">Tier 2 Authorized</span>
+                </div>
+
+                <div class="dossier-field-group">
+                  <span class="dossier-label">Recipient Name &amp; Age</span>
+                  <p class="dossier-value"><strong>Mrs. Shanti Sharma (79)</strong> &bull; Dadi</p>
+                </div>
+
+                <div class="dossier-field-group">
+                  <span class="dossier-label">Primary Health Condition</span>
+                  <p class="dossier-value">Mild cognitive impairment; experiences mild sundowning restlessness around sunset. Needs gentle presence and reassurance.</p>
+                </div>
+
+                <div class="dossier-field-group">
+                  <span class="dossier-label">Mobility &amp; Accessibility</span>
+                  <p class="dossier-value">Ambulatory with walking cane. Verandah has flat wheelchair accessible ramp with safety rails. <em>Zero stair climbing required.</em></p>
+                </div>
+
+                <div class="dossier-field-group">
+                  <span class="dossier-label">Dietary &amp; Tea Preferences</span>
+                  <p class="dossier-value">Pure vegetarian; loves lukewarm ginger-tulsi chai served with digestive Marie biscuits at 4:30 PM.</p>
+                </div>
+              </div>
+
+              <!-- Card 3: Explicit Boundaries (Legal Protection) -->
+              <div class="dossier-card liquid-glass-card spotlight-card" data-spotlight>
+                <div class="dossier-card-header">
+                  <div>
+                    <h3 class="dossier-title">Explicit Care Boundaries</h3>
+                    <span class="caregiver-meta">Strict Volunteer Safety Directives</span>
+                  </div>
+                  <span class="spec-pill-tag">Non-Clinical Boundary</span>
+                </div>
+
+                <p class="dossier-value" style="margin-bottom: 16px;">
+                  To protect our volunteer helpers from civil or medical liability, the following explicit boundaries are legally binding:
+                </p>
+
+                <div class="boundary-tag-list">
+                  <span class="boundary-tag">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                    No Medical Injections
+                  </span>
+                  <span class="boundary-tag">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                    No Invasive Clinical Procedures
+                  </span>
+                  <span class="boundary-tag">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                    No Heavy Body Lifting
+                  </span>
+                  <span class="boundary-tag">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                    No Unprescribed Medication Handling
+                  </span>
+                </div>
+
+                <div class="dossier-field-group" style="margin-top: 20px;">
+                  <span class="dossier-label">Emergency Key Location</span>
+                  <p class="dossier-value">Smart lock code is securely sent via encrypted SMS once a Tier 2 request is mutually agreed and locked in escrow.</p>
+                </div>
+              </div>
+
+              <!-- Card 4: Calming Routines & Medical Contacts -->
+              <div class="dossier-card liquid-glass-card spotlight-card" data-spotlight>
+                <div class="dossier-card-header">
+                  <div>
+                    <h3 class="dossier-title">Routines &amp; Emergency Contacts</h3>
+                    <span class="caregiver-meta">Escalation Directives</span>
+                  </div>
+                  <span class="spec-pill-tag">Emergency Protocols</span>
+                </div>
+
+                <div class="dossier-field-group">
+                  <span class="dossier-label">Proven Calming Activities</span>
+                  <div class="boundary-tag-list" style="margin-bottom: 16px;">
+                    <span class="soothe-tag">Munshi Premchand Stories</span>
+                    <span class="soothe-tag">Carnatic Vocal Bhajans</span>
+                    <span class="soothe-tag">Courtyard Tulsi Watering</span>
+                  </div>
+                </div>
+
+                <div class="dossier-field-group">
+                  <span class="dossier-label">Designated Emergency Contacts</span>
+                  
+                  <div class="contact-row">
+                    <div>
+                      <strong>Dr. Ramesh Rao</strong>
+                      <span class="contact-role">Family Physician (Indiranagar Clinic)</span>
+                    </div>
+                    <span class="font-mono" style="color:var(--color-rust-700); font-weight:600;">+91 98450 11234</span>
+                  </div>
+
+                  <div class="contact-row">
+                    <div>
+                      <strong>Manipal Hospital HAL Emergency</strong>
+                      <span class="contact-role">Dialysis &amp; Acute Care OPD</span>
+                    </div>
+                    <span class="font-mono" style="color:var(--color-rust-700); font-weight:600;">080 2502 4444</span>
+                  </div>
+
+                  <div class="contact-row">
+                    <div>
+                      <strong>National Emergency Services</strong>
+                      <span class="contact-role">Immediate Ambulance &bull; Central Control</span>
+                    </div>
+                    <span class="font-mono" style="color:#b91c1c; font-weight:700;">112</span>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Home Preparation Checklist for First-Time Volunteer Companions -->
+            <div class="prep-section">
+              <div class="section-header-centered">
+                <span class="section-kicker">Host Family Readiness</span>
+                <h2 class="section-title">Home Preparation Checklist for Host Families</h2>
+                <p class="section-subtitle">
+                  Simple, thoughtful actions to ensure your home is welcoming, safe, and stress-free for visiting volunteer companions.
+                </p>
+              </div>
+
+              <div class="prep-grid">
+                <!-- Item 1 -->
+                <div class="prep-item-card liquid-glass-card spotlight-card" data-spotlight>
+                  <span class="prep-badge-num">01</span>
+                  <div class="prep-content">
+                    <h4>Clear Hallways &amp; Warm Lighting</h4>
+                    <p>
+                      Remove loose rugs and door mats to prevent slip hazards. Ensure corridor lighting is turned on with warm 2700K lamps to mitigate sundowning shadow confusion.
+                    </p>
+                  </div>
+                </div>
+
+                <!-- Item 2 -->
+                <div class="prep-item-card liquid-glass-card spotlight-card" data-spotlight>
+                  <span class="prep-badge-num">02</span>
+                  <div class="prep-content">
+                    <h4>Pre-Staged Refreshment Counter</h4>
+                    <p>
+                      Leave a thermal flask of warm filtered water, clean cups, and Marie digestive biscuits on the kitchen counter. Clearly mark pure vegetarian / Jain kitchen utensils.
+                    </p>
+                  </div>
+                </div>
+
+                <!-- Item 3 -->
+                <div class="prep-item-card liquid-glass-card spotlight-card" data-spotlight>
+                  <span class="prep-badge-num">03</span>
+                  <div class="prep-content">
+                    <h4>Refrigerator Emergency Card</h4>
+                    <p>
+                      Keep a laminated card on the refrigerator door showing Dr. Ramesh Rao's direct clinic number, Manipal Hospital emergency desk, and nearest family neighbor contact.
+                    </p>
+                  </div>
+                </div>
+
+                <!-- Item 4 -->
+                <div class="prep-item-card liquid-glass-card spotlight-card" data-spotlight>
+                  <span class="prep-badge-num">04</span>
+                  <div class="prep-content">
+                    <h4>Calming Activity Accessibility</h4>
+                    <p>
+                      Leave Dadi's favorite Munshi Premchand storybook on the verandah wicker table along with the Bluetooth speaker paired to calming instrumental flute ragas.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Statutory Framework & Indian Legal Protection Matrix -->
+            <div style="margin-top: 56px;">
+              <div class="section-header-centered">
+                <span class="section-kicker">Legal &amp; Sovereign Architecture</span>
+                <h2 class="section-title">Statutory Legal Protections</h2>
+                <p class="section-subtitle">
+                  KinTime operates under explicit non-clinical mutual aid frameworks validated by Indian statutes and Supreme Court directives.
+                </p>
+              </div>
+
+              <div class="conduct-grid" style="grid-template-columns: repeat(3, 1fr);">
+                <div class="conduct-card liquid-glass-card spotlight-card" data-spotlight>
+                  <div class="conduct-icon-circle">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                  </div>
+                  <h3 class="conduct-title">Good Samaritan Shield</h3>
+                  <p class="conduct-desc">
+                    Protected under <strong>Section 134A of the Motor Vehicles (Amendment) Act 2019</strong> and Supreme Court of India Good Samaritan guidelines. Voluntary helpers acting in good faith bear zero civil or criminal liability.
+                  </p>
+                </div>
+
+                <div class="conduct-card liquid-glass-card spotlight-card" data-spotlight>
+                  <div class="conduct-icon-circle">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                  </div>
+                  <h3 class="conduct-title">Senior Citizens Act 2007</h3>
+                  <p class="conduct-desc">
+                    Aligned with the <strong>Maintenance &amp; Welfare of Parents and Senior Citizens (MWPSC) Act 2007</strong>, fostering community-led elder protection, dignity preservation, and neighborhood social safety nets.
+                  </p>
+                </div>
+
+                <div class="conduct-card liquid-glass-card spotlight-card" data-spotlight>
+                  <div class="conduct-icon-circle">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                  </div>
+                  <h3 class="conduct-title">DPDP Act Privacy</h3>
+                  <p class="conduct-desc">
+                    In compliance with the <strong>Digital Personal Data Protection Act 2023</strong>. Recipient medical dossiers are encrypted end-to-end, never shared with third parties, and accessible only upon mutual task acceptance.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </section>
+      </main>
+
+      <!-- Footer -->
+      <footer class="site-footer">
+        <div class="container footer-content">
+          <div class="footer-top">
+            <div class="f-col">
+              <div class="brand-group">
+                <div class="brand-symbol"><span class="symbol-core"></span></div>
+                <span class="brand-name">KinTime</span>
+              </div>
+              <p class="footer-blurb">
+                An open protocol time-bank for unpaid family caregivers. Powered by neighborly empathy and double-entry cryptographic verification.
+              </p>
+            </div>
+
+            <div class="f-col">
+              <span class="f-heading">Platform Navigation</span>
+              <ul class="f-list">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="care-exchange.html">Care Exchange</a></li>
+                <li><a href="passbook.html">Care Passbook</a></li>
+                <li><a href="dossier.html">Care Dossier</a></li>
+                <li><a href="emergency-sos.html">Emergency SOS</a></li>
+                <li><a href="#" id="btn-open-db">Database &amp; Schema</a></li>
+              </ul>
+            </div>
+
+            <div class="f-col">
+              <span class="f-heading">Statutory Compliance</span>
+              <p class="f-statute">
+                Complies with Senior Citizens Welfare Protocols (Maintenance and Welfare of Parents and Senior Citizens Act 2007) and Good Samaritan Protection under the Motor Vehicles (Amendment) Act 2019 / Supreme Court Guidelines. Non-profit mutual aid protocol with zero direct clinical liability.
+              </p>
+            </div>
+          </div>
+
+          <div class="footer-bottom">
+            <span>&copy; 2026 KinTime India Care Infrastructure. Open Social Protocol.</span>
+            <div class="footer-bottom-links">
+              <a href="#navbar" class="back-to-top" id="btn-back-to-top">Back to Top &uarr;</a>
+            </div>
+          </div>
+        </div>
+      </footer>
+
+    </div>
+  </div>
+
+  <!-- Modal: Live SQLite Database Inspector -->
+  <div class="modal-overlay" id="db-modal" aria-hidden="true" role="dialog" aria-labelledby="db-modal-title">
+    <div class="modal-glass-card modal-db-card liquid-glass-card">
+      <div class="modal-header">
+        <div class="modal-badge-group">
+          <span class="pill-dot"></span>
+          <span class="modal-kicker">Local SQLite 3 Engine &bull; database/kintime.db</span>
+        </div>
+        <button class="modal-close-btn" id="btn-close-db" aria-label="Close Database Inspector">&times;</button>
+      </div>
+
+      <div class="db-inspector-header">
+        <div>
+          <h3 class="modal-title" id="db-modal-title">SQLite Database Inspector</h3>
+          <p class="db-sub-text">Direct query access to the append-only double-entry care ledger and relational schema.</p>
+        </div>
+        <div class="db-status-pill">
+          <span class="db-pulse"></span>
+          <span>Port 3001 Connected</span>
+        </div>
+      </div>
+
+      <div class="db-tabs-bar">
+        <button class="db-tab active" data-db-tab="ledger">ledger_entries</button>
+        <button class="db-tab" data-db-tab="balances">vw_user_balances (View)</button>
+        <button class="db-tab" data-db-tab="tasks">tasks</button>
+        <button class="db-tab" data-db-tab="users">users</button>
+        <button class="db-tab" data-db-tab="schema">schema.sql (DDL)</button>
+      </div>
+
+      <div class="db-table-viewport" id="db-table-viewport"></div>
+
+      <div class="db-modal-footer">
+        <div class="db-footer-info font-mono">
+          <span>File: <code>database/kintime.db</code></span>
+          <span>&bull; View in CLI: <code>npm run db:view</code></span>
+        </div>
+        <button class="btn btn-secondary btn-sm" id="btn-refresh-db">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"></polyline><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path></svg>
+          <span>Refresh Data</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>

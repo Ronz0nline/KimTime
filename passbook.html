@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Care Passbook — KinTime Caregiver Time-Bank</title>
+  <meta name="description" content="View your verified care hours, immutable double-entry ledger transactions, and emergency overdraft buffer." />
+  
+  <!-- Clean, Modern & Airy Geometric Sans-Serif Typography (Poppins, Montserrat, Inter) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@500;600;700;800;900&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&display=swap" rel="stylesheet" />
+  
+  <script type="module" src="/src/auth-guard.js"></script>
+  <link rel="stylesheet" href="/src/style.css" />
+</head>
+<body class="canvas-ground">
+  <div id="smooth-wrapper">
+    <div id="smooth-content">
+
+      <!-- Navigation Bar -->
+      <header class="header-nav liquid-glass-card" id="navbar">
+        <div class="nav-container">
+          <a href="index.html" class="brand-group" aria-label="KinTime Home">
+            <div class="brand-symbol">
+              <span class="symbol-core"></span>
+              <span class="symbol-ring"></span>
+            </div>
+            <span class="brand-name">KinTime</span>
+          </a>
+
+          <nav class="nav-links" aria-label="Main Navigation">
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="care-exchange.html" class="nav-link">Care Exchange</a>
+            <a href="passbook.html" class="nav-link active">Care Passbook</a>
+            <a href="dossier.html" class="nav-link">Care Dossier</a>
+          </nav>
+
+          <div class="nav-actions">
+            <a href="passbook.html" class="passbook-quick-pill" title="Your verified care hours">
+              <span class="pill-dot"></span>
+              <span class="pill-label">Balance:</span>
+              <span class="pill-value tabular-nums" id="nav-balance-val">4.50</span>
+              <span class="pill-unit">hrs</span>
+            </a>
+
+            <!-- User Account / Profile Button -->
+            <button class="nav-auth-btn" id="btn-open-auth" aria-label="Account Login or Registration">
+              <span class="user-avatar-dot" id="nav-user-avatar">AD</span>
+              <span class="nav-user-name" id="nav-user-name">Ananya</span>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+
+            <a href="emergency-sos.html" class="btn-sos-trigger" aria-label="Activate Respite SOS Emergency">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
+              </svg>
+              <span>Respite SOS</span>
+            </a>
+          </div>
+        </div>
+        <div class="scroll-progress-line" id="scroll-progress"></div>
+      </header>
+
+      <main>
+        <!-- Passbook Section -->
+        <section class="section page-hero-header" id="passbook-section">
+          <div class="container">
+            <div class="page-title-row">
+              <div>
+                <span class="section-kicker">Double-Entry Ledger Integrity</span>
+                <h1 class="section-title">The Immutable Care Passbook</h1>
+                <p class="section-subtitle">
+                  Hours cannot be arbitrarily printed or debited. KinTime guarantees that an hour can only exist when credited to a helper and debited from an escrow reserve.
+                </p>
+              </div>
+
+              <div>
+                <button class="btn btn-primary" id="btn-hero-simulate">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 3h12M6 8h12M6 13l8.5 8M6 13h3a4.5 4.5 0 0 0 0-9H6v9" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  <span>Simulate Respite Settlement (+2.0h)</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Passbook Physical Paper Container -->
+            <div class="passbook-paper-container" id="passbook-card">
+              <div class="perforation-edge"></div>
+
+              <div class="passbook-inner">
+                <div class="passbook-header">
+                  <div class="passbook-account-info">
+                    <span class="passbook-series font-mono">ACCOUNT #KT-BLR-8842</span>
+                    <h3 class="passbook-holder">Ananya Deshmukh &bull; Primary Caregiver</h3>
+                    <span class="passbook-geo">Cluster: Indiranagar Care Circle, Bengaluru, Karnataka</span>
+                  </div>
+
+                  <div class="passbook-balance-card">
+                    <span class="bal-label">VERIFIED ACTIVE BALANCE</span>
+                    <div class="bal-figure">
+                      <span class="bal-number tabular-nums" id="passbook-balance-display">4.50</span>
+                      <span class="bal-unit">HOURS</span>
+                    </div>
+                    <span class="bal-overdraft font-mono">+3.00 hr Emergency Grace Active</span>
+                  </div>
+                </div>
+
+                <!-- Monthly Statement Summary Metrics -->
+                <div class="statement-summary-grid">
+                  <div class="statement-stat-card liquid-glass-card">
+                    <span class="statement-stat-label">Lifetime Earned</span>
+                    <span class="statement-stat-val tabular-nums text-emerald">18.50h</span>
+                    <span class="statement-stat-sub">Across 9 verified neighborhood sessions</span>
+                  </div>
+                  <div class="statement-stat-card liquid-glass-card">
+                    <span class="statement-stat-label">Lifetime Redeemed</span>
+                    <span class="statement-stat-val tabular-nums text-terracotta">14.00h</span>
+                    <span class="statement-stat-sub">Respite coverage utilized for Dadi</span>
+                  </div>
+                  <div class="statement-stat-card liquid-glass-card">
+                    <span class="statement-stat-label">Angel Pool Buffer</span>
+                    <span class="statement-stat-val tabular-nums">+3.00h</span>
+                    <span class="statement-stat-sub">Guaranteed community overdraft reserve</span>
+                  </div>
+                  <div class="statement-stat-card liquid-glass-card">
+                    <span class="statement-stat-label">Ledger Audit State</span>
+                    <span class="statement-stat-val tabular-nums" style="color:var(--color-emerald-700); font-size:1.4rem;">100% Valid</span>
+                    <span class="statement-stat-sub font-mono">SQLite Double-Entry Verified</span>
+                  </div>
+                </div>
+
+                <!-- Ledger Double-Entry Transaction Register -->
+                <div class="ledger-table-wrapper">
+                  <table class="ledger-table" id="ledger-table">
+                    <thead>
+                      <tr>
+                        <th>Date &amp; Stamp</th>
+                        <th>Transaction Description</th>
+                        <th>Tier &amp; Party</th>
+                        <th>Debit (-)</th>
+                        <th>Credit (+)</th>
+                        <th>Settled Balance</th>
+                        <th>Ledger Status</th>
+                      </tr>
+                    </thead>
+                    <tbody id="ledger-rows">
+                      <!-- Populated via JavaScript -->
+                    </tbody>
+                  </table>
+                </div>
+
+                <!-- Simple Human 3-Step Care Cycle -->
+                <div class="ledger-lifecycle-row">
+                  <div class="lifecycle-step">
+                    <span class="step-num">01</span>
+                    <span class="step-title">Post or Browse Care</span>
+                    <span class="step-sub">Share an errand or offer companionship</span>
+                  </div>
+                  <div class="lifecycle-arrow">&rarr;</div>
+                  <div class="lifecycle-step">
+                    <span class="step-num">02</span>
+                    <span class="step-title">Connect with a Neighbor</span>
+                    <span class="step-sub">Voluntary mutual agreement, zero clinical pressure</span>
+                  </div>
+                  <div class="lifecycle-arrow">&rarr;</div>
+                  <div class="lifecycle-step">
+                    <span class="step-num">03</span>
+                    <span class="step-title">Banked Hours Credited</span>
+                    <span class="step-sub">1 hour given = 1 hour earned for your family</span>
+                  </div>
+                </div>
+
+                <!-- Passbook Actions & Statement Print Bar -->
+                <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; margin-top:32px; padding-top:24px; border-top:1px dashed var(--color-cream-300);">
+                  <div style="font-size:0.85rem; color:var(--color-slate-600);">
+                    <span>Official Passbook Statement certified under <strong>Aadhaar Verified Open Social Protocol</strong>.</span>
+                  </div>
+                  <div style="display:flex; gap:12px;">
+                    <button class="btn btn-secondary btn-sm" onclick="window.print()">
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+                      <span>Print Passbook Statement</span>
+                    </button>
+                    <button class="btn btn-primary btn-sm" id="btn-hero-simulate">
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"></polyline><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path></svg>
+                      <span>Simulate Care Settlement</span>
+                    </button>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- Mathematical Guarantees of Sovereign 1:1 Parity -->
+            <div style="margin-top: 56px;">
+              <div class="section-header-centered">
+                <span class="section-kicker">Economic Foundation</span>
+                <h2 class="section-title">The Three Inviolable Ledger Laws</h2>
+                <p class="section-subtitle">
+                  Why time-banking fundamentally protects families from financial exploitation and inflation.
+                </p>
+              </div>
+
+              <div class="conduct-grid" style="grid-template-columns: repeat(3, 1fr);">
+                <div class="conduct-card liquid-glass-card spotlight-card" data-spotlight>
+                  <div class="conduct-icon-circle">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                  </div>
+                  <h3 class="conduct-title">Absolute 1:1 Equality</h3>
+                  <p class="conduct-desc">
+                    One hour of human life is worth exactly one hour of human life. A software engineer's hour is mathematically equivalent to a student's or a homemaker's hour. Time cannot be devalued.
+                  </p>
+                </div>
+
+                <div class="conduct-card liquid-glass-card spotlight-card" data-spotlight>
+                  <div class="conduct-icon-circle">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                  </div>
+                  <h3 class="conduct-title">Pre-Funded Escrow Lock</h3>
+                  <p class="conduct-desc">
+                    Whenever an assistance request is published, hours are locked in cryptographic escrow. When a volunteer completes the session, payment settles instantaneously without human negotiation.
+                  </p>
+                </div>
+
+                <div class="conduct-card liquid-glass-card spotlight-card" data-spotlight>
+                  <div class="conduct-icon-circle">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                  </div>
+                  <h3 class="conduct-title">Zero Interest, Zero Debt</h3>
+                  <p class="conduct-desc">
+                    Negative balances never accrue interest, fees, or penalties. Overdrafts are safely backed by community donations from the Angel Pool, so caregivers are never financially trapped.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </section>
+      </main>
+
+      <!-- Footer -->
+      <footer class="site-footer">
+        <div class="container footer-content">
+          <div class="footer-top">
+            <div class="f-col">
+              <div class="brand-group">
+                <div class="brand-symbol"><span class="symbol-core"></span></div>
+                <span class="brand-name">KinTime</span>
+              </div>
+              <p class="footer-blurb">
+                An open protocol time-bank for unpaid family caregivers. Powered by neighborly empathy and double-entry cryptographic verification.
+              </p>
+            </div>
+
+            <div class="f-col">
+              <span class="f-heading">Platform Navigation</span>
+              <ul class="f-list">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="care-exchange.html">Care Exchange</a></li>
+                <li><a href="passbook.html">Care Passbook</a></li>
+                <li><a href="dossier.html">Care Dossier</a></li>
+                <li><a href="emergency-sos.html">Emergency SOS</a></li>
+                <li><a href="#" id="btn-open-db">Database &amp; Schema</a></li>
+              </ul>
+            </div>
+
+            <div class="f-col">
+              <span class="f-heading">Statutory Compliance</span>
+              <p class="f-statute">
+                Complies with Senior Citizens Welfare Protocols (Maintenance and Welfare of Parents and Senior Citizens Act 2007) and Good Samaritan Protection under the Motor Vehicles (Amendment) Act 2019 / Supreme Court Guidelines. Non-profit mutual aid protocol with zero direct clinical liability.
+              </p>
+            </div>
+          </div>
+
+          <div class="footer-bottom">
+            <span>&copy; 2026 KinTime India Care Infrastructure. Open Social Protocol.</span>
+            <div class="footer-bottom-links">
+              <a href="#navbar" class="back-to-top" id="btn-back-to-top">Back to Top &uarr;</a>
+            </div>
+          </div>
+        </div>
+      </footer>
+
+    </div>
+  </div>
+
+  <!-- Modal: Live SQLite Database Inspector -->
+  <div class="modal-overlay" id="db-modal" aria-hidden="true" role="dialog" aria-labelledby="db-modal-title">
+    <div class="modal-glass-card modal-db-card liquid-glass-card">
+      <div class="modal-header">
+        <div class="modal-badge-group">
+          <span class="pill-dot"></span>
+          <span class="modal-kicker">Local SQLite 3 Engine &bull; database/kintime.db</span>
+        </div>
+        <button class="modal-close-btn" id="btn-close-db" aria-label="Close Database Inspector">&times;</button>
+      </div>
+
+      <div class="db-inspector-header">
+        <div>
+          <h3 class="modal-title" id="db-modal-title">SQLite Database Inspector</h3>
+          <p class="db-sub-text">Direct query access to the append-only double-entry care ledger and relational schema.</p>
+        </div>
+        <div class="db-status-pill">
+          <span class="db-pulse"></span>
+          <span>Port 3001 Connected</span>
+        </div>
+      </div>
+
+      <div class="db-tabs-bar">
+        <button class="db-tab active" data-db-tab="ledger">ledger_entries</button>
+        <button class="db-tab" data-db-tab="balances">vw_user_balances (View)</button>
+        <button class="db-tab" data-db-tab="tasks">tasks</button>
+        <button class="db-tab" data-db-tab="users">users</button>
+        <button class="db-tab" data-db-tab="schema">schema.sql (DDL)</button>
+      </div>
+
+      <div class="db-table-viewport" id="db-table-viewport"></div>
+
+      <div class="db-modal-footer">
+        <div class="db-footer-info font-mono">
+          <span>File: <code>database/kintime.db</code></span>
+          <span>&bull; View in CLI: <code>npm run db:view</code></span>
+        </div>
+        <button class="btn btn-secondary btn-sm" id="btn-refresh-db">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"></polyline><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path></svg>
+          <span>Refresh Data</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
